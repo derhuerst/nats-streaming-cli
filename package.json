@@ -4,7 +4,8 @@
 	"version": "1.0.0",
 	"files": [
 		"publish.js",
-		"subscribe.js"
+		"subscribe.js",
+		"lib"
 	],
 	"bin": {
 		"publish-to-nats-streaming-channel": "./publish.js",
@@ -28,5 +29,8 @@
 		"node": ">=8"
 	},
 	"dependencies": {
+		"mri": "^1.1.4",
+		"node-nats-streaming": "^0.2.6",
+		"split2": "^3.1.1"
 	}
 }

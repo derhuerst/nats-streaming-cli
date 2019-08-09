@@ -26,4 +26,42 @@ if (argv.version || argv.v) {
 	process.exit(0)
 }
 
-// todo
+const natsStreaming = require('node-nats-streaming')
+const split = require('split2')
+const {Writable} = require('stream')
+const createNatsStreamingClient = require('./lib/client')
+
+const showError = (err) => {
+	console.error(err)
+	process.exit(1)
+}
+
+const channelName = argv._[0]
+if ('string' !== typeof channelName || !channelName) {
+	showError('channel-name must be a non-empty string.')
+}
+
+const encoding = argv.encoding || argv.e || 'utf-8'
+
+const client = createNatsStreamingClient()
+client.on('error', showError)
+
+client.once('connect', () => {
+	// todo: support binary input
+	process.stdin
+	.once('error', showError)
+	.pipe(split())
+	.once('error', showError)
+	.pipe(new Writable({
+		objectMode: true,
+		write: (msg, _, cb) => {
+			client.publish(channelName, Buffer.from(msg, encoding), (err, guid) => {
+				if (err) return cb(err)
+				console.info(guid, 'published message')
+				cb(null)
+			})
+		},
+		final: cb => client.close(cb)
+	}))
+	.once('error', showError)
+})

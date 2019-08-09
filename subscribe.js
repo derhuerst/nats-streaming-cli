@@ -31,4 +31,55 @@ if (argv.version || argv.v) {
 	process.exit(0)
 }
 
-// todo
+const {inspect} = require('util')
+const {isatty} = require('tty')
+const createNatsStreamingClient = require('./lib/client')
+
+const showError = (err) => {
+	console.error(err)
+	process.exit(1)
+}
+
+const channelName = argv._[0]
+if ('string' !== typeof channelName || !channelName) {
+	showError('channel-name must be a non-empty string.')
+}
+
+const encoding = argv.encoding || argv.e || 'utf-8'
+const metadata = argv.metadata || argv.m
+
+const inspectWithColor = isatty(process.stdout.fd)
+const formats = Object.assign(Object.create(null), {
+	json: val => JSON.stringify(val),
+	raw: val => val + '',
+	inspect: val => inspect(val, {depth: null, colors: inspectWithColor})
+})
+const format = formats[argv.format || argv.f] || formats.inspect
+const ack = argv.ack || argv.a
+
+const client = createNatsStreamingClient()
+client.on('error', showError)
+
+client.once('connect', () => {
+	const queueGroup = process.env.NATS_QUEUE_GROUP || Math.random().toString(16).slice(2)
+	const subOpts = client
+	.subscriptionOptions()
+	.setManualAckMode(true)
+	.setAckWait(10)
+	.setDurableName(queueGroup)
+	const subscription = client.subscribe(channelName, queueGroup)
+
+	subscription
+	.on('message', (msg) => {
+		const data = msg.getData().toString(encoding)
+		const item = metadata ? {
+			channelName: msg.getSubject(),
+			timestamp: msg.getTimestamp(),
+			sequence: msg.getSequence(),
+			data
+		} : data
+
+		process.stdout.write(format(item) + '\n')
+		if (ack) msg.ack()
+	})
+})
