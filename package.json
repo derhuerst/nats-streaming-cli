@@ -1,0 +1,32 @@
+{
+	"name": "nats-streaming-cli",
+	"description": "Publish & subscribe to NATS Streaming channels.",
+	"version": "1.0.0",
+	"files": [
+		"publish.js",
+		"subscribe.js"
+	],
+	"bin": {
+		"publish-to-nats-streaming-channel": "./publish.js",
+		"subscribe-to-nats-streaming-channel": "./subscribe.js"
+	},
+	"keywords": [
+		"nats streaming",
+		"message queue",
+		"message broker",
+		"publish",
+		"subcribe",
+		"command line",
+		"cli"
+	],
+	"author": "Jannis R <mail@jannisr.de>",
+	"homepage": "https://github.com/derhuerst/nats-streaming-cli",
+	"repository": "derhuerst/nats-streaming-cli",
+	"bugs": "https://github.com/derhuerst/nats-streaming-cli/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=8"
+	},
+	"dependencies": {
+	}
+}
