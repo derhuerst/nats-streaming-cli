@@ -65,7 +65,6 @@ client.once('connect', () => {
 	const subOpts = client
 	.subscriptionOptions()
 	.setManualAckMode(true)
-	.setAckWait(10)
 	.setDurableName(queueGroup)
 	const subscription = client.subscribe(channelName, queueGroup, subOpts)
 
