@@ -35,6 +35,7 @@ if (argv.version || argv.v) {
 const {inspect} = require('util')
 const {isatty} = require('tty')
 const createNatsStreamingClient = require('./lib/client')
+const withSoftExit = require('./soft-exit')
 
 const showError = (err) => {
 	console.error(err)
@@ -74,7 +75,6 @@ client.once('connect', () => {
 	.setManualAckMode(true)
 	.setDurableName(queueGroup)
 	if (start !== null) {
-		console.error('start', start)
 		subOpts = subOpts.setStartAtSequence(start)
 	}
 	// todo: setStartTime
@@ -93,4 +93,6 @@ client.once('connect', () => {
 		process.stdout.write(format(item) + '\n')
 		if (ack) msg.ack()
 	})
+
+	withSoftExit(() => client.close())
 })
