@@ -18,6 +18,7 @@ if (argv.help || argv.h) {
 Usage:
     subscribe-to-nats-streaming-channel <channel-name>
 Options:
+	--start     -s  Start with the message having this sequence nr.
 	--encoding  -e  Encoding to decode the message payload with. Default: utf-8
 	--format    -f  How to format the messages. json, raw, inspect (default)
 	--ack       -a  Acknowledge the messages received.
@@ -45,6 +46,11 @@ if ('string' !== typeof channelName || !channelName) {
 	showError('channel-name must be a non-empty string.')
 }
 
+const start = (
+	'number' === typeof argv.start ? argv.start : (
+		'number' === typeof argv.s ? argv.s : null
+	)
+)
 const encoding = argv.encoding || argv.e || 'utf-8'
 const metadata = argv.metadata || argv.m
 
@@ -62,12 +68,18 @@ client.on('error', showError)
 
 client.once('connect', () => {
 	const queueGroup = process.env.NATS_QUEUE_GROUP || Math.random().toString(16).slice(2)
-	const subOpts = client
+
+	let subOpts = client
 	.subscriptionOptions()
 	.setManualAckMode(true)
 	.setDurableName(queueGroup)
-	const subscription = client.subscribe(channelName, queueGroup, subOpts)
+	if (start !== null) {
+		console.error('start', start)
+		subOpts = subOpts.setStartAtSequence(start)
+	}
+	// todo: setStartTime
 
+	const subscription = client.subscribe(channelName, queueGroup, subOpts)
 	subscription
 	.on('message', (msg) => {
 		const data = msg.getData().toString(encoding)

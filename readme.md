@@ -31,6 +31,7 @@ Options:
 Usage:
     subscribe-to-nats-streaming-channel <channel-name>
 Options:
+	--start     -s  Start with the message having this sequence nr.
 	--encoding  -e  Encoding to decode the message payload with. Default: utf-8
 	--format    -f  How to format the messages. json, raw, inspect (default)
 	--ack       -a  Acknowledge the messages received.
