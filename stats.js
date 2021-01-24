@@ -82,14 +82,15 @@ const natsStreamingStatsUrl = 'http://localhost:8222/'
 
 	// todo: follow pagination using _.total & _.count
 
-	const channels = _.channels.map(c => ({
+	const channels = (_.channels || [])
+	.map(c => ({
 		name: c.name,
 		messages: c.msgs,
 		bytes: c.bytes,
 		firstMsgSeq: c.first_seq, latestMsgSeq: c.last_seq,
 	}))
 
-	const subscriptions = _.channels
+	const subscriptions = (_.channels || [])
 	.reduce((subs, c) => { // flatMap
 		return subs.concat((c.subscriptions || []).map(s => [s, c]))
 	}, [])
