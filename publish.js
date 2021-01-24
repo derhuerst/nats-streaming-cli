@@ -7,7 +7,8 @@ const pkg = require('./package.json')
 const argv = mri(process.argv.slice(2), {
 	boolean: [
 		'help', 'h',
-		'version', 'v'
+		'version', 'v',
+		'silent', 's',
 	]
 })
 
@@ -16,6 +17,7 @@ if (argv.help || argv.h) {
 Usage:
     echo 'a new message' | publish-to-nats-streaming-channel <channel-name>
 Options:
+	--silent    -s  Don't log IDs of published messages.
 	--encoding  -e  Encoding to encode the message payload with. Default: utf-8
 \n`)
 	process.exit(0)
@@ -42,6 +44,7 @@ if ('string' !== typeof channelName || !channelName) {
 }
 
 const encoding = argv.encoding || argv.e || 'utf-8'
+const silent = !!(argv.silent || argv.s)
 
 const client = createNatsStreamingClient()
 client.on('error', showError)
@@ -57,7 +60,7 @@ client.once('connect', () => {
 		write: (msg, _, cb) => {
 			client.publish(channelName, Buffer.from(msg, encoding), (err, guid) => {
 				if (err) return cb(err)
-				console.info(guid, 'published message')
+				if (!silent) console.info(guid, 'published message')
 				cb(null)
 			})
 		},

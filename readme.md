@@ -23,6 +23,7 @@ Or use [`npx`](https://npmjs.com/package/npx). ✨
 Usage:
     echo 'a new message' | publish-to-nats-streaming-channel <channel-name>
 Options:
+	--silent    -s  Don't log IDs of published messages.
 	--encoding  -e  Encoding to encode the message payload with. Default: utf-8
 ```
 
