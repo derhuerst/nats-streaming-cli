@@ -1,7 +1,7 @@
 {
 	"name": "nats-streaming-cli",
 	"description": "Publish & subscribe to NATS Streaming channels.",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"files": [
 		"publish.js",
 		"subscribe.js",
