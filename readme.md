@@ -36,6 +36,16 @@ Options:
 	--metadata  -m  Print the message payload along its metadata.
 ```
 
+```
+Usage:
+    nats-streaming-stats
+Options:
+	--json                Format data as JSON.
+	--raw                 Print raw NATS Streaming response.
+Example:
+    nats-streaming-stats
+```
+
 
 ## Contributing
 

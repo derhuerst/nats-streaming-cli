@@ -5,11 +5,13 @@
 	"files": [
 		"publish.js",
 		"subscribe.js",
+		"stats.js",
 		"lib"
 	],
 	"bin": {
 		"publish-to-nats-streaming-channel": "./publish.js",
-		"subscribe-to-nats-streaming-channel": "./subscribe.js"
+		"subscribe-to-nats-streaming-channel": "./subscribe.js",
+		"nats-streaming-stats": "./stats.js"
 	},
 	"keywords": [
 		"nats streaming",
@@ -29,7 +31,9 @@
 		"node": ">=8"
 	},
 	"dependencies": {
+		"cli-table3": "^0.6.0",
 		"mri": "^1.1.4",
+		"node-fetch": "^2.6.1",
 		"node-nats-streaming": "^0.3.2",
 		"split2": "^3.1.1"
 	}
