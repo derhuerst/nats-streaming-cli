@@ -32,7 +32,7 @@ const natsStreaming = require('node-nats-streaming')
 const split = require('split2')
 const {Writable} = require('stream')
 const createNatsStreamingClient = require('./lib/client')
-const withSoftExit = require('./soft-exit')
+const withSoftExit = require('./lib/soft-exit')
 
 const showError = (err) => {
 	console.error(err)

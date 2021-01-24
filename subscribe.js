@@ -35,7 +35,7 @@ if (argv.version || argv.v) {
 const {inspect} = require('util')
 const {isatty} = require('tty')
 const createNatsStreamingClient = require('./lib/client')
-const withSoftExit = require('./soft-exit')
+const withSoftExit = require('./lib/soft-exit')
 
 const showError = (err) => {
 	console.error(err)
