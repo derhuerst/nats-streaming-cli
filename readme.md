@@ -1,6 +1,8 @@
 # nats-streaming-cli
 
-**Publish & subscribe to [NATS Streaming](https://nats-io.github.io/docs/nats_streaming/intro.html) channels.**
+**Publish & subscribe to [NATS Streaming (a.k.a. STAN)](https://web.archive.org/web/20230601075022/https://docs.nats.io/legacy/stan/intro) channels.**
+
+Note that NATS Streaming had been deprecated for a long time, and has now reached its end of life.
 
 [![npm version](https://img.shields.io/npm/v/nats-streaming-cli.svg)](https://www.npmjs.com/package/nats-streaming-cli)
 ![ISC-licensed](https://img.shields.io/github/license/derhuerst/nats-streaming-cli.svg)
