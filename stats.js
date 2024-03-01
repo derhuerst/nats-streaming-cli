@@ -31,6 +31,7 @@ if (argv.version || argv.v) {
 	process.exit(0)
 }
 
+const {URL} = require('url')
 const fetch = require('node-fetch')
 const Table = require('cli-table3')
 
@@ -55,8 +56,8 @@ const minimalTable = (head) => {
 const natsStreamingStatsUrl = process.env.NATS_URL || 'http://localhost:8222/'
 
 ;(async () => {
-	// const url = natsStreamingStatsUrl + 'streaming/clientsz?subs=1'
-	const url = natsStreamingStatsUrl + 'streaming/channelsz?subs=1'
+	// const url = new URL('streaming/clientsz?subs=1', natsStreamingStatsUrl).href
+	const url = new URL('/streaming/channelsz?subs=1', natsStreamingStatsUrl).href
 
 	const res = await fetch(url, {
 		cache: 'no-store',
