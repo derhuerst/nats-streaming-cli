@@ -52,8 +52,7 @@ const minimalTable = (head) => {
 	})
 }
 
-// todo: make configurable
-const natsStreamingStatsUrl = 'http://localhost:8222/'
+const natsStreamingStatsUrl = process.env.NATS_URL || 'http://localhost:8222/'
 
 ;(async () => {
 	// const url = natsStreamingStatsUrl + 'streaming/clientsz?subs=1'
