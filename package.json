@@ -33,7 +33,7 @@
 	"dependencies": {
 		"cli-table3": "^0.6.0",
 		"mri": "^1.1.4",
-		"node-fetch": "^2.6.1",
+		"node-fetch": "^3.1.1",
 		"node-nats-streaming": "^0.3.2",
 		"split2": "^3.1.1"
 	}
